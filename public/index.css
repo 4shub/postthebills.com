@@ -1,0 +1,64 @@
+:root {
+    --primary-color: #0500FF;
+}
+html, body {
+    padding: 0;
+    background-color: transparent;
+    margin: 0;
+    font-family: "Fira Code", 'Courier New', Courier, serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.main {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-color);
+
+}
+
+.fullscreen {
+    width: 100%;
+}
+
+.border {
+    border: 3rem solid var(--primary-color);
+    width: 100%;
+    background-color: transparent;
+    height: 100%;
+    position: absolute;
+}
+
+@media (max-aspect-ratio: 1/1) {
+    .fullscreen {
+        width: auto;
+        height: 100%;
+    }
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 1rem 3rem;
+    color: white;
+    font-size: 1rem;
+    z-index: 2;
+}
+
+.cta {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1rem 3rem;
+    color: white;
+    font-size: 1rem;
+    z-index: 2;
+}

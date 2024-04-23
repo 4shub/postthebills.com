@@ -3,8 +3,8 @@ import sharp from 'sharp';
 import path from 'path';
 
 const PHOTO_PATH = path.join(__dirname, '..', 'photos');
-const OUTPUT_IMAGE_PATH = path.join(__dirname, '..', 'dist', 'bills');
-const OUTPUT_PATH = path.join(__dirname, '..', 'dist');
+const OUTPUT_IMAGE_PATH = path.join(__dirname, '..', 'public', 'bills');
+const OUTPUT_PATH = path.join(__dirname, '..', 'public');
 
 const allPhotos = await fs.readdir(PHOTO_PATH)
 
