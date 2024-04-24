@@ -17,14 +17,16 @@ html, body {
 .main {
     width: 100vw;
     height: 100vh;
-    height: 100dvh;
     overflow: hidden;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
 
+.main {
+    height: 100dvh;
 }
 
 .fullscreen {
