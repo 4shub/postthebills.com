@@ -4,8 +4,8 @@
 }
 html, body {
     padding: 0;
-    background-color: var(--primary-color);
     margin: 0;
+    background-color: var(--primary-color);
     font-size: 1rem;
     font-family: "Fira Code", 'Courier New', Courier, serif;
 }
@@ -54,6 +54,7 @@ html, body {
 .wall {
     background-color: var(--primary-color);
     min-width: var(--border-size);
+    z-index: 1;
 }
 
 
@@ -64,12 +65,14 @@ html, body {
     background-color: var(--primary-color);
     min-height: var(--border-size);
     text-align: right;
+    z-index: 1;
 }
 
 .cta {
     padding: 1rem 3rem;
     height: var(--border-size);
     display: flex;
+    z-index: 1;
     background-color: var(--primary-color);
     width: 100%;
     align-items: center;
@@ -77,7 +80,7 @@ html, body {
 }
 
 .image--background {
-    z-index: -1;
+    z-index: 0;
     background-color: var(--primary-color);
     position: absolute;
 }
@@ -93,3 +96,4 @@ html, body {
         height: 100dvh;
     }
 }
+
