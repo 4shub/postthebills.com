@@ -46,15 +46,15 @@ await Promise.all(photoMap.map(async (details, index, all) => {
 
   const fileToCreate = path.join(OUTPUT_PATH, fileName);
 
-  const prev = all[index + 1]
+  const prev = all[index + 1] || all[0]
+  const next = all[index - 1] || all[all.length - 1]
 
 
   localFileData = localFileData.replace('_IMAGE_LINK_', details.imagePath)
   localFileData = localFileData.replace('_ADDRESS_LINK_', details.title)
 
-  if (prev) {
-    localFileData = localFileData.replace('_PREV_DATA_', prev.id)
-  }
+  localFileData = localFileData.replace('_PREV_LINK_URL_', `/${prev.id}.html`)
+  localFileData = localFileData.replace('_NEXT_LINK_URL_', `/${next.id}.html`)
 
   await fs.writeFile(`${fileToCreate}.html`, localFileData)
 }))
