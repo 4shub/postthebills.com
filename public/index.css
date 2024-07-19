@@ -17,6 +17,10 @@ html, body {
     box-sizing: border-box;
 }
 
+.logo {
+    text-decoration: none;
+}
+
 .main {
     width: 100vw;
     height: 100vh;
