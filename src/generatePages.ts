@@ -12,7 +12,15 @@ const allPhotos = await fs.readdir(PHOTO_PATH)
 const photoMap = await Promise.all(allPhotos
   .filter(photoName => photoName.endsWith('.jpeg') || photoName.endsWith('.jpg'))
   .map(async (photoName) => {
-  const [title, date, source] = photoName.split(/\||\./).map(s => s.trim())
+  const [title, date, ...rest] = photoName.split(/\||\./).map(s => s.trim());
+
+  let source = '';
+
+  // if rest is just one, it means the last attribute is just the image type
+  if (rest.length > 1) {
+    source = rest[0];
+  }
+  
   const id = `${title}_${date}`.toLowerCase().replace(/ |,/g, '')
 
   const sharpFile = await sharp(path.join(PHOTO_PATH, photoName));
