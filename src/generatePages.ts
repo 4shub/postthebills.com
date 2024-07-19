@@ -8,6 +8,10 @@ const OUTPUT_PATH = path.join(__dirname, '..', 'public');
 
 const allPhotos = await fs.readdir(PHOTO_PATH)
 
+const reprocessImages = process.argv.includes('--reprocess-images')
+
+const imageBuildIndex = JSON.parse( await fs.readFile(path.join(__dirname, 'imageBuildIndex.json'), { encoding: 'utf-8' }))
+
 // get all files in folder that are images
 const photoMap = await Promise.all(allPhotos
   .filter(photoName => photoName.endsWith('.jpeg') || photoName.endsWith('.jpg'))
@@ -20,15 +24,20 @@ const photoMap = await Promise.all(allPhotos
   if (rest.length > 1) {
     source = rest[0];
   }
-  
+
   const id = `${title}_${date}`.toLowerCase().replace(/ |,/g, '')
 
-  const sharpFile = await sharp(path.join(PHOTO_PATH, photoName));
+  if (reprocessImages || !imageBuildIndex[id]) {
+    const sharpFile = await sharp(path.join(PHOTO_PATH, photoName));
 
 
-  await Promise.all([
-    await sharpFile.jpeg({ mozjpeg: true }).toFile(path.join(OUTPUT_IMAGE_PATH, `${id}-original.jpg`)),
-  ])
+    await Promise.all([
+      await sharpFile.jpeg({ mozjpeg: true }).toFile(path.join(OUTPUT_IMAGE_PATH, `${id}-original.jpg`)),
+    ])
+
+    imageBuildIndex[id] = true;
+  }
+
 
   const imagePath = `./bills/${id}-original.jpg`
 
@@ -60,31 +69,35 @@ const generateSitemap = async (photoMap) => {
   await fs.writeFile(path.join(OUTPUT_PATH, 'sitemap.xml'), baseSiteMap)
 }
 
-await Promise.all(photoMap.map(async (details, index, all) => {
-  let localFileData = rootFileData;
-  const fileName = firstPhotoId === details.id ? 'index' : details.id;
 
-  const fileToCreate = path.join(OUTPUT_PATH, fileName);
+await Promise.all([
+  ...photoMap.map(async (details, index, all) => {
+    let localFileData = rootFileData;
+    const fileName = firstPhotoId === details.id ? 'index' : details.id;
 
-  const prev = all[index + 1] || all[0]
-  const next = (() => {
-    if ((index - 1) === 0) {
-      return all[index - 1]
-    }
+    const fileToCreate = path.join(OUTPUT_PATH, fileName);
 
-    return all[index - 1] || all[all.length - 1];
-  })();
+    const prev = all[index + 1] || all[0]
+    const next = (() => {
+      if ((index - 1) === 0) {
+        return all[index - 1]
+      }
+
+      return all[index - 1] || all[all.length - 1];
+    })();
 
 
 
-  localFileData = localFileData.replace('__SOURCE__', details.source || '')
-  localFileData = localFileData.replace('_IMAGE_LINK_', details.imagePath)
-  localFileData = localFileData.replace('_ADDRESS_LINK_', details.title)
+    localFileData = localFileData.replace('__SOURCE__', details.source || '')
+    localFileData = localFileData.replace('_IMAGE_LINK_', details.imagePath)
+    localFileData = localFileData.replace('_ADDRESS_LINK_', details.title)
 
-  localFileData = localFileData.replace('_PREV_LINK_URL_', `/${prev.id}.html`)
-  localFileData = localFileData.replace('_NEXT_LINK_URL_', `/${next.id}.html`)
+    localFileData = localFileData.replace('_PREV_LINK_URL_', `/${prev.id}.html`)
+    localFileData = localFileData.replace('_NEXT_LINK_URL_', `/${next.id}.html`)
 
-  await fs.writeFile(`${fileToCreate}.html`, localFileData)
-}))
+    await fs.writeFile(`${fileToCreate}.html`, localFileData)
+  }),
+  generateSitemap(photoMap),
+  fs.writeFile(path.join(__dirname, 'imageBuildIndex.json'), JSON.stringify(imageBuildIndex, null, 2))
+])
 
-await generateSitemap(photoMap)
