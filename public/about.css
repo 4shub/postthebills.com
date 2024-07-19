@@ -1,0 +1,8 @@
+.about {
+    padding: 1rem var(    --side-padding);
+    color: #fff;
+}
+
+h1 {
+    font-size: 1.5rem;
+}
