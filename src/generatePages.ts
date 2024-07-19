@@ -46,7 +46,7 @@ const generateSitemap = async (photoMap) => {
   const baseSiteMap = `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     ${photoMap.map(detail => `<url><loc>https://www.postthebills.com/${detail.id}.html</loc></url>`).join('\n')}
-  </urlset
+  </urlset>
   `;
 
   await fs.writeFile(path.join(OUTPUT_PATH, 'sitemap.xml'), baseSiteMap)
