@@ -90,7 +90,7 @@ await Promise.all([
 
     localFileData = localFileData.replace('__SOURCE__', details.source || '')
     localFileData = localFileData.replace('_IMAGE_LINK_', details.imagePath)
-    localFileData = localFileData.replace('_ADDRESS_LINK_', details.title)
+    localFileData = localFileData.replace(/_ADDRESS_LINK_/g, details.title)
 
     localFileData = localFileData.replace('_PREV_LINK_URL_', `/${prev.id}.html`)
     localFileData = localFileData.replace('_NEXT_LINK_URL_', `/${next.id}.html`)
