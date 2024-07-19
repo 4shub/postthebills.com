@@ -2,6 +2,9 @@
   "name": "postthebills.com",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "build": "bun ./src/generatePages.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },

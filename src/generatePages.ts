@@ -12,7 +12,7 @@ const allPhotos = await fs.readdir(PHOTO_PATH)
 const photoMap = await Promise.all(allPhotos
   .filter(photoName => photoName.endsWith('.jpeg') || photoName.endsWith('.jpg'))
   .map(async (photoName) => {
-  const [title, date] = photoName.split(/\||\./).map(s => s.trim())
+  const [title, date, source] = photoName.split(/\||\./).map(s => s.trim())
   const id = `${title}_${date}`.toLowerCase().replace(/ |,/g, '')
 
   const sharpFile = await sharp(path.join(PHOTO_PATH, photoName));
@@ -26,6 +26,7 @@ const photoMap = await Promise.all(allPhotos
 
   return ({
     id,
+    source,
     imagePath,
     link: path.join(PHOTO_PATH, photoName),
     title,
@@ -40,16 +41,27 @@ const rootFileData = await fs.readFile(path.join(__dirname, './root.html'), { en
 
 const firstPhotoId = photoMap[0].id;
 
+// code to generate a sitemap
+const generateSitemap = async (photoMap) => {
+  const baseSiteMap = `<?xml version="1.0" encoding="UTF-8"?>
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    ${photoMap.map(detail => `<url><loc>https://www.postthebills.com/${detail.id}.html</loc></url>`).join('\n')}
+  </urlset
+  `;
+
+  await fs.writeFile(path.join(OUTPUT_PATH, 'sitemap.xml'), baseSiteMap)
+}
+
 await Promise.all(photoMap.map(async (details, index, all) => {
   let localFileData = rootFileData;
   const fileName = firstPhotoId === details.id ? 'index' : details.id;
 
   const fileToCreate = path.join(OUTPUT_PATH, fileName);
 
-  const prev = all[index + 1] || 'index'
+  const prev = all[index + 1] || all[0]
   const next = (() => {
     if ((index - 1) === 0) {
-      return { id: 'index' }
+      return all[index - 1]
     }
 
     return all[index - 1] || all[all.length - 1];
@@ -57,6 +69,7 @@ await Promise.all(photoMap.map(async (details, index, all) => {
 
 
 
+  localFileData = localFileData.replace('__SOURCE__', details.source || '')
   localFileData = localFileData.replace('_IMAGE_LINK_', details.imagePath)
   localFileData = localFileData.replace('_ADDRESS_LINK_', details.title)
 
@@ -65,3 +78,5 @@ await Promise.all(photoMap.map(async (details, index, all) => {
 
   await fs.writeFile(`${fileToCreate}.html`, localFileData)
 }))
+
+await generateSitemap(photoMap)

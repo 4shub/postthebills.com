@@ -68,6 +68,9 @@ html, body {
     min-height: var(--border-size);
     text-align: right;
     z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .cta {
