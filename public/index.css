@@ -111,6 +111,7 @@ html, body {
 
 .menu-button:focus ~ .menu-label {
     background-color: white;
+    text-decoration: underline;
     color: var(--primary-color);
 }
 
