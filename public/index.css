@@ -17,10 +17,6 @@ html, body {
     box-sizing: border-box;
 }
 
-.logo {
-    text-decoration: none;
-}
-
 .main {
     width: 100vw;
     height: 100vh;
@@ -104,8 +100,13 @@ html, body {
 
 }
 
+.menu-button {
+    text-decoration: underline;
+}
+
 .menu-button:checked ~ .menu--content {
     display: flex;
+
 }
 
 .menu-button:focus ~ .menu-label {
