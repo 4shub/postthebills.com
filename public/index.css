@@ -1,7 +1,10 @@
 :root {
     --primary-color: #0500FF;
     --border-size: 52px;
+    --side-padding: 3rem;
 }
+
+
 html, body {
     padding: 0;
     margin: 0;
@@ -61,7 +64,7 @@ html, body {
 
 
 .footer {
-    padding: 1rem 3rem;
+    padding: 1rem var(--side-padding);
     color: white;
     width: 100%;
     background-color: var(--primary-color);
@@ -74,7 +77,7 @@ html, body {
 }
 
 .cta {
-    padding: 1rem 3rem;
+    padding: 1rem var(--side-padding);
     height: var(--border-size);
     display: flex;
     z-index: 1;
@@ -85,9 +88,66 @@ html, body {
     justify-content: space-between;
 }
 
-.nav {
+.menu {
     display: flex;
     gap: 1rem;
+    border: 0;
+    background-color: transparent;
+    color: #fff;
+    font: inherit;
+    position: relative;
+    padding: 0.5rem 0;
+
+}
+
+.menu-button:checked ~ .menu--content {
+    display: flex;
+}
+
+.menu-button:focus ~ .menu-label {
+    background-color: white;
+    color: var(--primary-color);
+}
+
+a:focus {
+    outline: none;
+    background-color: white;
+    color: var(--primary-color)
+}
+
+.menu--content a:focus {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.menu-label {
+    cursor: pointer;
+}
+
+.menu-button {
+    opacity: 0;
+}
+
+.menu--content {
+    position: absolute;
+    display: flex;
+    display: none;
+    background-color: #fff;
+    color: var(--primary-color);
+    list-style: none;
+    right: 0;
+    gap: 0.5rem;
+    top: 15px;
+    right: 5px;
+    flex-direction: column;
+    z-index: 2;
+    width: 125px;
+    padding: 0;
+}
+
+.menu--content li {
+    padding: 0.5rem;
+    cursor: pointer;
 }
 
 .image--background {
@@ -107,6 +167,8 @@ html, body {
         height: 100dvh;
     }
 }
+
+
 
 
 a {

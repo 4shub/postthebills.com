@@ -70,13 +70,24 @@ const generateSitemap = async (photoMap) => {
 }
 
 
+const createPage = async (fileName, current, next, prev) => {
+  const fileToCreate = path.join(OUTPUT_PATH, fileName);
+
+
+  let localFileData = rootFileData;
+
+  localFileData = localFileData.replace('__SOURCE__', current.source || '')
+  localFileData = localFileData.replace('_IMAGE_LINK_', current.imagePath)
+  localFileData = localFileData.replace(/_ADDRESS_LINK_/g, current.title)
+
+  localFileData = localFileData.replace('_PREV_LINK_URL_', `/${prev.id}.html`)
+  localFileData = localFileData.replace('_NEXT_LINK_URL_', `/${next.id}.html`)
+
+  await fs.writeFile(`${fileToCreate}.html`, localFileData)
+}
+
 await Promise.all([
   ...photoMap.map(async (details, index, all) => {
-    let localFileData = rootFileData;
-    const fileName = firstPhotoId === details.id ? 'index' : details.id;
-
-    const fileToCreate = path.join(OUTPUT_PATH, fileName);
-
     const prev = all[index + 1] || all[0]
     const next = (() => {
       if ((index - 1) === 0) {
@@ -86,16 +97,11 @@ await Promise.all([
       return all[index - 1] || all[all.length - 1];
     })();
 
+    if (firstPhotoId === details.id) {
+      await createPage('index', details, next, prev)
+    }
 
-
-    localFileData = localFileData.replace('__SOURCE__', details.source || '')
-    localFileData = localFileData.replace('_IMAGE_LINK_', details.imagePath)
-    localFileData = localFileData.replace(/_ADDRESS_LINK_/g, details.title)
-
-    localFileData = localFileData.replace('_PREV_LINK_URL_', `/${prev.id}.html`)
-    localFileData = localFileData.replace('_NEXT_LINK_URL_', `/${next.id}.html`)
-
-    await fs.writeFile(`${fileToCreate}.html`, localFileData)
+    await createPage(details.id, details, next, prev)
   }),
   generateSitemap(photoMap),
   fs.writeFile(path.join(__dirname, 'imageBuildIndex.json'), JSON.stringify(imageBuildIndex, null, 2))
