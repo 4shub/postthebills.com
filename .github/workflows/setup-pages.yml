@@ -1,0 +1,23 @@
+name: Setup Pages
+on:
+  push:
+      branches:
+      - main
+jobs:
+  setup-pages:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+        - uses: oven-sh/setup-bun@v2
+        - name: build
+          run: npm run build
+        - name: Commit code to main
+          run: |
+            git config --global user.email "shub@shub.club"
+            git config --global user.name "Shub"
+            git add .
+            git commit -m "Update website"
+            git push origin main
+          
+

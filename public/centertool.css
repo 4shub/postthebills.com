@@ -1,0 +1,197 @@
+.centertool {
+    padding: 1rem var(    --side-padding);
+    color: #fff;
+}
+
+
+
+
+
+@keyframes load {
+    0% {
+        height: 100%;
+    }
+    50% {
+        height: 0;
+    }
+
+    100% {
+        height: 100%;
+    }
+}
+
+@keyframes load-width {
+    0% {
+        width: 100%;
+    }
+    50% {
+        width: 0;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+
+.loadblock {
+    width: calc(1/6 * 100%);
+    aspect-ratio: 1/1;
+    position: relative;
+}
+
+:root {
+    --animation-speed: 3.8s;
+}
+
+.loadblock-inner {
+    position: absolute;
+    width: 0;
+    height: 100%;
+    background-color: white;
+    animation: load-width var(--animation-speed) ease-in-out infinite;
+}
+
+
+.loadblock-inner[data-loadPattern="left"] {
+    width: 0;
+    left: 0;
+    height: 100%;
+
+    animation: load-width var(--animation-speed) ease-in-out infinite;
+}
+
+.loadblock-inner[data-loadPattern="right"] {
+    width: 0;
+    right: 0;
+    height: 100%;
+    animation: load-width var(--animation-speed) ease-in-out infinite;
+}
+
+.loading {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 600px;
+    width: 100%;
+    border: 2rem solid white;
+    border-radius: 2rem;
+}
+
+.uploader {
+    max-width: 600px;
+    width: 100%;
+    height: 300px;
+    color: var(--primary-color);
+}
+
+.uploader--area {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-items: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 2rem;
+    background-color: #fff;
+
+}
+
+.uploader--area.dragover {
+    background-color: lightgray;
+}
+
+.uploader--area--frame {
+    font-size: 5rem;
+    font-family: font-variant-emoji;
+}
+
+.uploader--area--content {
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 4rem;
+    gap: 2rem;
+}
+
+
+
+.align-middle {
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.centertool--content {
+    margin: 5rem 0;
+}
+
+.loading-wrapper {
+    max-width: 600px;
+    width: 100%;
+    position: absolute;
+}
+
+
+.loaded-content {
+    opacity: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 500ms;
+    flex-direction: column;
+}
+
+.loaded-image {
+    width: 100%;
+}
+
+.hidden {
+    opacity: 0;
+    transition: opacity 500ms;
+    z-index: -1;
+    height: 0;
+    width: 0;
+    position: absolute;
+}
+
+.error {
+    padding: 1rem;
+    background-color: lightcoral;
+    color: darkred;
+    margin-top: 2rem;
+}
+
+
+.loading-item {
+    position: absolute;
+    background-color: #fff;
+    color: var(--primary-color);
+    top: 50%;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: -20px;
+    width: 200px;
+    border-radius: 5px;
+    z-index: 9;
+    padding: 1rem;
+    text-align: center;
+    border: 2px solid var(--primary-color);
+
+}
+
+.analysis-area {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+}
+
+.analysis-area  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}

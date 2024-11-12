@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./index.css?cache=3">
+    <title>postthebills.com <about></title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<!--    <link rel="manifest" href="/site.webmanifest">-->
+    <link rel="stylesheet" href="./centertool.css?cache=3">
+</head>
+<body>
+<header class="cta">
+    <a class="logo"  href="/">post the bills</a>
+</header>
+<main class="centertool">
+    <div id="error-container"></div>
+
+    <h1>CenterTool</h1>
+    <div>Below is a tool that uses tenserflow.js to center images based on detecting the primary item infront of it. It runs entirely on the client side.</div>
+    <noscript>
+        <div>Enable javascript to use this tool.</div>
+    </noscript>
+    <section class="centertool--content">
+        <div class="align-middle">
+            <div id="loader" class="loading-wrapper">
+                <div class="loading-item">Loading</div>
+                <div class="loading"  id="loading">
+                </div>
+            </div>
+            <div class="hidden loaded-content" id="loaded-content">
+                <div class="analysis-area">
+                    <canvas  id="canvas">
+                    </canvas>
+                    <img class="hidden loaded-image" id="image" />
+                </div>
+
+                <div class="uploader">
+                    <div class="uploader--area" id="uploader-area">
+                        <input class="hidden" type="file" id="image-upload" accept="image/*" />
+                        <label class="uploader--area--content" for="image-upload" class="file-label">
+                            <div class="uploader--area--frame">
+                                🖼️
+                            </div>
+                            Drag or click to upload an image</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="./centertool.js?cache=3"></script>
+</main>
+</body>
+</html>
