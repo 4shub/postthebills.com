@@ -14,12 +14,6 @@ jobs:
           run: npm install
         - name: build
           run: npm run build
-        - name: Commit code to main
-          run: |
-            git config --global user.email "shub@shub.club"
-            git config --global user.name "Shub"
-            git add .
-            git commit -m "Update website"
-            git push origin main
+        - uses: stefanzweifel/git-auto-commit-action@v5
           
 
