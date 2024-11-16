@@ -29,13 +29,14 @@ const photoMap = await Promise.all(allPhotos
 
   const id = `${title}_${date}`.toLowerCase().replace(/ |,/g, '')
 
+
   if (reprocessImages || !imageBuildIndex[id]) {
-    const sharpFile = await sharp(path.join(PHOTO_PATH, photoName)).rotate(0);
-
-
-    await Promise.all([
-      await sharpFile.jpeg({ mozjpeg: true }).toFile(path.join(OUTPUT_IMAGE_PATH, `${id}-original.jpg`)),
-    ])
+    await sharp(path.join(PHOTO_PATH, photoName))
+      .rotate()
+      .jpeg({
+        quality: 100,
+      })
+      .toFile(path.join(OUTPUT_IMAGE_PATH, `${id}-original.jpg`))
 
     imageBuildIndex[id] = true;
   }
