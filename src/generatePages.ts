@@ -1,7 +1,6 @@
 import fs from 'node:fs/promises';
 import sharp from 'sharp';
 import path from 'path';
-import {exiftool} from "exiftool-vendored";
 
 const PHOTO_PATH = path.join(__dirname, '..', 'photos');
 const OUTPUT_IMAGE_PATH = path.join(__dirname, '..', 'public', 'bills');
@@ -13,23 +12,11 @@ const reprocessImages = process.argv.includes('--reprocess-images')
 
 const imageBuildIndex = JSON.parse( await fs.readFile(path.join(__dirname, 'imageBuildIndex.json'), { encoding: 'utf-8' }))
 
-async function removeExif(filePath) {
-  try {
-    // Write image metadata without EXIF data
-    await exiftool.write(filePath, { all: '' }, ['overwrite_original']);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    // Close the exiftool instance to avoid leaving processes open
-    await exiftool.end();
-  }
-}
 
 // get all files in folder that are images
 const photoMap = await Promise.all(allPhotos
   .filter(photoName => photoName.endsWith('.jpeg') || photoName.endsWith('.jpg'))
   .map(async (photoName) => {
-    await removeExif(path.join(PHOTO_PATH, photoName))
 
   const [title, date, ...rest] = photoName.split(/\||\./).map(s => s.trim());
 
@@ -43,7 +30,7 @@ const photoMap = await Promise.all(allPhotos
   const id = `${title}_${date}`.toLowerCase().replace(/ |,/g, '')
 
   if (reprocessImages || !imageBuildIndex[id]) {
-    const sharpFile = await sharp(path.join(PHOTO_PATH, photoName));
+    const sharpFile = await sharp(path.join(PHOTO_PATH, photoName)).rotate(0);
 
 
     await Promise.all([
