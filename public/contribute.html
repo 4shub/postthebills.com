@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./index.css?cache=3">
+    <title>postthebills.com <about></title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <!--    <link rel="manifest" href="/site.webmanifest">-->
+    <link rel="stylesheet" href="./contribute.css?cache=3">
+</head>
+<body>
+<header class="cta">
+    <a class="logo"  href="/">post the bills</a>
+</header>
+<main>
+    <h1>Contribute to us!</h1>
+    <p>Contribute to our collection by uploading a picture directly from this site. You only need a github access token with permissions to create PRs to postthebills.com</p>
+    <form id="contribute" class="form">
+        <div class="input">
+            <label id="personal-access-token-label">Personal Access Token</label>
+            <div class="subtitle"><a href="https://github.com/settings/personal-access-tokens/new">[Create one here]</a></div>
+            <input name="accessToken" id="accessToken" aria-labelledby="personal-access-token-label" type="password"   />
+            <label class="checkbox-container">
+                <input type="checkbox" id="preserve-key" />
+                Preserve key in local storage
+            </label>
+        </div>
+        <div class="input">
+            <label id="image-label">Image</label>
+            <div class="subtitle">[Will open your camera on mobile]</div>
+            <div class="image-container" id="image-preview-container"></div>
+            <div>
+                <div id="image-warning"></div>
+                <input
+                        name="image"
+                        aria-labelledby="image-label"  id="image-upload" type="file"  name="picture" accept="image/jpeg" capture="environment" />
+            </div>
+        </div>
+        <div class="input">
+            <label id="location-label">Address</label>
+            <div class="address-container">
+                <input
+                        name="address"
+                        id="address"
+                        data-form-type="other"
+                        autocomplete="false" aria-labelledby="location-label" type="text"  />
+<!--                <button type="button" id="auto-identify-address" >Auto-Identify</button>-->
+            </div>
+        </div>
+        <button class="submit-button" type="submit" id="submit" >Submit</button>
+    </form>
+    <script src="./contribute.js?cache=3"></script>
+
+</main>
+</body>
+</html>
+
