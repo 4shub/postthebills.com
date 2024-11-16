@@ -34,8 +34,9 @@ const photoMap = await Promise.all(allPhotos
     await sharp(path.join(PHOTO_PATH, photoName))
       .rotate()
       .jpeg({
-        quality: 100,
+        quality: 75,
       })
+      .resize(null, 1440)
       .toFile(path.join(OUTPUT_IMAGE_PATH, `${id}-original.jpg`))
 
     imageBuildIndex[id] = true;
