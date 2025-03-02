@@ -1,4 +1,7 @@
 
+let nextPageHtml = '';
+let prevPageHtml = '';
+
 
 window.onload = () => {
   document.body.addEventListener('keydown', (e) => {
@@ -14,10 +17,65 @@ window.onload = () => {
   });
 
   checkSwipe();
+
+  preloadNextPages();
+  preloaPrevPages();
+
+
+  document.getElementById('next').addEventListener('click', (e) => {
+    e.preventDefault();
+
+    if (!nextPageHtml) {
+      return;
+    }
+
+    const nextUrl = document.getElementById('next-url').href;
+
+
+    document.getElementById('next-page').innerHTML = nextPageHtml;
+    preloadNextPages();
+    history.pushState({}, '', nextUrl);
+  });
+
+  document.getElementById('prev').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (!prevPageHtml) {
+      return;
+    }
+
+    const prevUrl = document.getElementById('prev-url').href;
+
+
+    document.getElementById('prev-page').innerHTML = prevPageHtml;
+    preloaPrevPages();
+
+    history.pushState({}, '', prevUrl);
+
+  })
 }
 
+
+function preloadNextPages() {
+  const nextUrl = document.getElementById('next-url').href;
+
+  if (nextUrl) {
+    nextPageHtml = fetch(nextUrl).then(res => res.text());
+  }
+}
+
+function preloaPrevPages() {
+  const prevUrl = document.getElementById('prev-url').href;
+
+  if (prevUrl) {
+    prevPageHtml = fetch(prevUrl).then(res => res.text());
+  }
+}
+
+
+
+
 function checkSwipe() {
-  const touchSurface = document.getElementById('touch-surface');
+  const touchSurface = document.body
   let touchstartX = 0;
   let touchendX = 0;
 
